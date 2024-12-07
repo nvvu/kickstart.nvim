@@ -51,7 +51,7 @@ vim.g.have_nerd_font = true
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -907,6 +907,7 @@ require('lazy').setup({
     opts = {},
     config = function()
       vim.keymap.set('n', '<leader>gd', ':DiffviewOpen<CR>', { desc = '[G]it [D]iff | DiffViewOpen' })
+      vim.keymap.set('n', '<leader>gb', ':Gitsigns blame<CR>', { desc = '[G]it [B]lame' })
     end,
   },
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
