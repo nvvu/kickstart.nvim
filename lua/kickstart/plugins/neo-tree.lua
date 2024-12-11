@@ -11,8 +11,8 @@ return {
   },
   cmd = 'Neotree',
   keys = {
-    { '\\', ':Neotree position=float reveal<CR>', desc = 'NeoTree reveal', silent = true },
-    { '|', ':Neotree position=float source=git_status<CR>', desc = 'NeoTree git status', silent = true },
+    { '\\', ':Neotree position=float reveal<CR>', desc = 'NeoTree reveal floating explorer', silent = true },
+    { '|', ':Neotree position=left reveal<CR>', desc = 'NeoTree reveal side-bar', silent = true },
   },
   opts = {
     filesystem = {
