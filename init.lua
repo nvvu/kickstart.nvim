@@ -287,6 +287,7 @@ require('lazy').setup({
         { '<leader>t', group = '[T]oggle' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
         { '<leader>g', group = '[G]it' },
+        { '<leader><tab>', group = '[T]ab' },
       },
     },
   },
@@ -612,7 +613,7 @@ require('lazy').setup({
                 rangeVariableTypes = true,
               },
               analyses = {
-                fieldalignment = true,
+                fieldalignment = false,
                 nilness = true,
                 unusedparams = true,
                 unusedwrite = true,
@@ -964,20 +965,20 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>gb', ':Gitsigns blame<CR>', { desc = '[G]it [B]lame' })
     end,
   },
-  -- {
-  --   'ray-x/go.nvim',
-  --   dependencies = { -- optional packages
-  --     'ray-x/guihua.lua',
-  --     'neovim/nvim-lspconfig',
-  --     'nvim-treesitter/nvim-treesitter',
-  --   },
-  --   config = function()
-  --     require('go').setup()
-  --   end,
-  --   event = { 'CmdlineEnter' },
-  --   ft = { 'go', 'gomod' },
-  --   build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
-  -- },
+  {
+    'ray-x/go.nvim',
+    dependencies = { -- optional packages
+      'ray-x/guihua.lua',
+      'neovim/nvim-lspconfig',
+      'nvim-treesitter/nvim-treesitter',
+    },
+    config = function()
+      require('go').setup()
+    end,
+    event = { 'CmdlineEnter' },
+    ft = { 'go', 'gomod' },
+    build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
+  },
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- place them in the correct locations.
