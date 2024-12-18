@@ -1,36 +1,10 @@
 --[[
-    If you don't know anything about Lua, I recommend taking some time to read through
-    a guide. One possible example which will only take 10-15 minutes:
-      - https://learnxinyminutes.com/docs/lua/
-
-    After understanding a bit more about Lua, you can use `:help lua-guide` as a
-    reference for how Neovim integrates Lua.
-    - :help lua-guide
-    - (or HTML version): https://neovim.io/doc/user/lua-guide.html
-
-  TODO: The very first thing you should do is to run the command `:Tutor` in Neovim.
-
-  Once you've completed that, you can continue working through **AND READING** the rest
-  of the kickstart init.lua.
-
+  - https://learnxinyminutes.com/docs/lua/
+  - :help lua-guide
+  - (or HTML version): https://neovim.io/doc/user/lua-guide.html
   Next, run AND READ `:help`.
-    This will open up a help window with some basic information
-    about reading, navigating and searching the builtin help documentation.
-
-    This should be the first place you go to look when you're stuck or confused
-    with something. It's one of my favorite Neovim features.
-
-    MOST IMPORTANTLY, we provide a keymap "<space>sh" to [s]earch the [h]elp documentation,
-    which is very useful when you're not exactly sure of what you're looking for.
-
   I have left several `:help X` comments throughout the init.lua
-    These are hints about where to find more information about the relevant settings,
-    plugins or Neovim features used in Kickstart.
-
-   NOTE: Look for lines like this
-
-If you experience any errors while trying to install kickstart, run `:checkhealth` for more info.
-
+  If you experience any errors while trying to install kickstart, run `:checkhealth` for more info.
 --]]
 
 -- Set <space> as the leader key
@@ -138,6 +112,7 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 vim.keymap.set('n', '<leader>cp', ":let @+ = expand('%:p')<CR>", { desc = 'Copy file path to clipboard' })
+
 -- Move Lines
 vim.keymap.set('n', '<A-j>', "<cmd>execute 'move .+' . v:count1<cr>==", { desc = 'Move Down' })
 vim.keymap.set('n', '<A-k>', "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", { desc = 'Move Up' })
@@ -145,15 +120,18 @@ vim.keymap.set('i', '<A-j>', '<esc><cmd>m .+1<cr>==gi', { desc = 'Move Down' })
 vim.keymap.set('i', '<A-k>', '<esc><cmd>m .-2<cr>==gi', { desc = 'Move Up' })
 vim.keymap.set('v', '<A-j>', ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", { desc = 'Move Down' })
 vim.keymap.set('v', '<A-k>', ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", { desc = 'Move Up' })
--- manage tab
-vim.keymap.set('n', '<leader><tab>l', '<cmd>tablast<cr>', { desc = 'Last Tab' })
-vim.keymap.set('n', '<leader><tab>o', '<cmd>tabonly<cr>', { desc = 'Close Other Tabs' })
-vim.keymap.set('n', '<leader><tab>f', '<cmd>tabfirst<cr>', { desc = 'First Tab' })
-vim.keymap.set('n', '<leader><tab><tab>', '<cmd>tabnew<cr>', { desc = 'New Tab' })
-vim.keymap.set('n', '<leader><tab>]', '<cmd>tabnext<cr>', { desc = 'Next Tab' })
-vim.keymap.set('n', '<leader><tab>d', '<cmd>tabclose<cr>', { desc = 'Close Tab' })
-vim.keymap.set('n', '<leader><tab>[', '<cmd>tabprevious<cr>', { desc = 'Previous Tab' })
 
+-- manage tab
+-- vim.keymap.set('n', '<leader><tab>l', '<cmd>tablast<cr>', { desc = 'Last Tab' })
+-- vim.keymap.set('n', '<leader><tab>o', '<cmd>tabonly<cr>', { desc = 'Close Other Tabs' })
+-- vim.keymap.set('n', '<leader><tab>f', '<cmd>tabfirst<cr>', { desc = 'First Tab' })
+-- vim.keymap.set('n', '<leader><tab><tab>', '<cmd>tabnew<cr>', { desc = 'New Tab' })
+-- vim.keymap.set('n', '<leader><tab>]', '<cmd>tabnext<cr>', { desc = 'Next Tab' })
+-- vim.keymap.set('n', '<leader><tab>d', '<cmd>tabclose<cr>', { desc = 'Close Tab' })
+-- vim.keymap.set('n', '<leader><tab>[', '<cmd>tabprevious<cr>', { desc = 'Previous Tab' })
+
+vim.keymap.set('n', '<C-]>', ':bnext<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-[>', ':bprevious<CR>', { noremap = true, silent = true })
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -346,6 +324,9 @@ require('lazy').setup({
       -- [[ Configure Telescope ]]
       -- See `:help telescope` and `:help telescope.setup()`
       require('telescope').setup {
+        defaults = {
+          layout_strategy = 'flex',
+        },
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
@@ -357,6 +338,9 @@ require('lazy').setup({
         pickers = {
           find_files = {
             hidden = true,
+          },
+          buffers = {
+            sort_mru = true,
           },
         },
         extensions = {
@@ -590,7 +574,7 @@ require('lazy').setup({
         gopls = {
           settings = {
             gopls = {
-              buildFlags = { '-tags=wireinject' },
+              buildFlags = { '-tags=wireinject,integration,integration_test' },
               hoverKind = 'FullDocumentation',
               gofumpt = true,
               codelenses = {
@@ -619,7 +603,7 @@ require('lazy').setup({
                 unusedwrite = true,
                 useany = true,
               },
-              usePlaceholders = true,
+              -- usePlaceholders = true,
               completeUnimported = true,
               staticcheck = true,
               directoryFilters = { '-.git', '-.vscode', '-.idea', '-.vscode-test', '-node_modules' },
@@ -689,9 +673,27 @@ require('lazy').setup({
       vim.api.nvim_create_autocmd('BufWritePre', {
         pattern = '*.go',
         callback = function()
-          vim.lsp.buf.format()
-          vim.lsp.buf.code_action { context = { only = { 'source.organizeImports' }, diagnostics = {} }, apply = true }
+          -- vim.lsp.buf.format()
+          -- vim.lsp.buf.code_action { context = { only = { 'source.organizeImports' }, diagnostics = {} }, apply = true }
           -- vim.lsp.buf.code_action { context = { only = { 'source.fixAll' } }, apply = true }
+
+          local params = vim.lsp.util.make_range_params()
+          params.context = { only = { 'source.organizeImports' } }
+          -- buf_request_sync defaults to a 1000ms timeout. Depending on your
+          -- machine and codebase, you may want longer. Add an additional
+          -- argument after params if you find that you have to write the file
+          -- twice for changes to be saved.
+          -- E.g., vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
+          local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params)
+          for cid, res in pairs(result or {}) do
+            for _, r in pairs(res.result or {}) do
+              if r.edit then
+                local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or 'utf-16'
+                vim.lsp.util.apply_workspace_edit(r.edit, enc)
+              end
+            end
+          end
+          vim.lsp.buf.format { async = false }
         end,
       })
     end,
@@ -973,7 +975,11 @@ require('lazy').setup({
       'nvim-treesitter/nvim-treesitter',
     },
     config = function()
-      require('go').setup()
+      require('go').setup {
+        lsp_inlay_hints = {
+          enable = false,
+        },
+      }
     end,
     event = { 'CmdlineEnter' },
     ft = { 'go', 'gomod' },
