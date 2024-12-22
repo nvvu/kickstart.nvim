@@ -855,16 +855,10 @@ require('lazy').setup({
 
   {
     -- `:Telescope colorscheme`.
-    -- 'folke/tokyonight.nvim',
-    -- 'navarasu/onedark.nvim',
-    'sainnhe/gruvbox-material',
+    'navarasu/onedark.nvim',
     priority = 1000,
     init = function()
-      vim.g.gruvbox_material_enable_italic = true
-      -- vim.g.gruvbox_material_dim_inactive_windows = true
-      vim.g.gruvbox_material_background = 'medium'
-      vim.cmd.colorscheme 'gruvbox-material'
-
+      vim.cmd.colorscheme 'onedark'
       vim.cmd.hi 'Comment gui=none'
     end,
   },
