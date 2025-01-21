@@ -395,7 +395,7 @@ require('lazy').setup({
         gopls = {
           settings = {
             gopls = {
-              buildFlags = { '-tags=wireinject,integration,integration_test' },
+              buildFlags = { '-tags=wireinject,integration,integration_test,xgo' },
               hoverKind = 'FullDocumentation',
               gofumpt = true,
               codelenses = {
